@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Processor</title>
+    <!-- Link to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 14px;
+        }
+        input, select {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .fa-music {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <i class="fas fa-music"></i>
+        <h2>Process Your Audio</h2>
+        
+        <form id="audioForm" enctype="multipart/form-data" method="POST" action="/upload">
+            <label for="audioFile">Choose audio file:</label>
+            <input type="file" id="audioFile" name="audioFile" accept="audio/*" required><br>
+
+            <label for="bitrate">Bitrate (kbps):</label>
+            <select id="bitrate" name="bitrate">
+                <option value="192">192 kbps</option>
+                <option value="256">256 kbps</option>
+                <option value="320">320 kbps</option>
+            </select><br>
+
+            <label for="samplingRate">Sampling Rate (kHz):</label>
+            <select id="samplingRate" name="samplingRate">
+                <option value="44">44 kHz</option>
+                <option value="48">48 kHz</option>
+                <option value="96">96 kHz</option>
+            </select><br>
+
+            <label for="thumbnail">Upload Thumbnail:</label>
+            <input type="file" id="thumbnail" name="thumbnail" accept="image/*"><br>
+
+            <button type="submit">Upload and Process</button>
+        </form>
+        
+        <!-- This section will display the download button once the processing is done -->
+        <div id="downloadSection" style="display:none; margin-top: 20px;">
+            <a href="#" id="downloadLink" download>
+                <button>Download Processed Audio</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("audioForm").addEventListener("submit", function (event) {
+            var audioFile = document.getElementById("audioFile").files[0];
+            var thumbnail = document.getElementById("thumbnail").files[0];
+            if (!audioFile) {
+                alert("Please upload an audio file.");
+                event.preventDefault();
+            }
+            if (!thumbnail) {
+                alert("Please upload a thumbnail image.");
+                event.preventDefault();
+            }
+        });
+
+        // This is just for the purpose of demonstration; in real implementation, you'd use backend logic
+        function handleDownloadLink(fileUrl) {
+            const downloadSection = document.getElementById('downloadSection');
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = fileUrl;  // Set the URL to the processed file
+            downloadSection.style.display = 'block'; // Show the download button
+        }
+    </script>
+</body>
+</html>
